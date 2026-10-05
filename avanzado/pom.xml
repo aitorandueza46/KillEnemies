@@ -4,10 +4,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.cuatrovientos</groupId>
-  <artifactId>killenemies-basico</artifactId>
+  <artifactId>killenemies-avanzado</artifactId>
   <version>1.0</version>
 
-  <name>killenemies-basico</name>
+  <name>killenemies-avanzado</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
