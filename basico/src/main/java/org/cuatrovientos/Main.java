@@ -19,16 +19,16 @@ public class Main {
 
         Collections.shuffle(personajes);
 
-        for (Character personaje : personajes) {
+        for (int i = 0; i < personajes.size(); i++) {
+            Character personaje = personajes.get(i);
             if (personaje.isEnemy()) {
+                System.out.println("el personaje " + i + " es un enemigo Matalo");
                 ((Enemy) personaje).kill();
+            } else {
+                System.out.println("el personaje " + i + " es un amigo");
             }
         }
 
-
-
-
-        
     }
 
 }
