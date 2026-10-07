@@ -1,5 +1,11 @@
 package org.cuatrovientos;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -8,17 +14,41 @@ public class Main {
 
     public static void main(String[] args) {
 
-        ArrayList<Character> personajes = new ArrayList<>();
+        File fichero = new File("partida.dat");
+        ArrayList<Character> personajes = null;
+        Hero heroe = null;
 
-        for (int i = 0; i < 5; i++) {
-            personajes.add(new Friend());
+        if (fichero.exists()) {
+
+            try (ObjectInputStream entrada = new ObjectInputStream(new FileInputStream(fichero))) {
+                personajes = (ArrayList<Character>) entrada.readObject();
+                heroe = (Hero) entrada.readObject();
+                System.out.println("partida cargada de partida.dat");
+            } catch (Exception e) {
+                System.out.println("no se pudo cargar la partida, se empieza una nueva");
+            }
+
         }
 
-        for (int i = 0; i < 5; i++) {
-            personajes.add(new Enemy());
-        }
+        if (personajes == null || heroe == null || personajes.isEmpty()) {
 
-        Collections.shuffle(personajes);
+            fichero.delete();
+
+            personajes = new ArrayList<>();
+
+            for (int i = 0; i < 5; i++) {
+                personajes.add(new Friend());
+            }
+
+            for (int i = 0; i < 5; i++) {
+                personajes.add(new Enemy());
+            }
+
+            Collections.shuffle(personajes);
+
+            heroe = new Hero();
+
+        }
 
         int amigos = 0;
         int enemigos = 0;
@@ -33,7 +63,6 @@ public class Main {
 
         System.out.println("hay " + amigos + " amigos y " + enemigos + " enemigos");
 
-        Hero heroe = new Hero();
         Scanner teclado = new Scanner(System.in);
         int opcion = 0;
 
@@ -78,6 +107,14 @@ public class Main {
                         }
                     }
 
+                    try (ObjectOutputStream salida = new ObjectOutputStream(new FileOutputStream(fichero))) {
+                        salida.writeObject(personajes);
+                        salida.writeObject(heroe);
+                        System.out.println("partida guardada");
+                    } catch (IOException e) {
+                        System.out.println("no se pudo guardar la partida");
+                    }
+
                 }
 
             } else if (opcion != 3) {
@@ -89,6 +126,10 @@ public class Main {
         }
 
         teclado.close();
+
+        if (personajes.isEmpty()) {
+            fichero.delete();
+        }
 
         System.out.println("--- fin de la partida ---");
 

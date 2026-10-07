@@ -1,6 +1,8 @@
 package org.cuatrovientos;
 
-public class Enemy implements Character {
+import java.io.Serializable;
+
+public class Enemy implements Character, Serializable {
 
     @Override
     public boolean isEnemy() {

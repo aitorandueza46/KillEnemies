@@ -1,6 +1,8 @@
 package org.cuatrovientos;
 
-public class Hero implements Character {
+import java.io.Serializable;
+
+public class Hero implements Character, Serializable {
 
     private int enemigosMatados;
     private int amigosDefendidos;
