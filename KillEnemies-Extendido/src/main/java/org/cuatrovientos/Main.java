@@ -233,6 +233,13 @@ public class Main {
                                 System.out.printf(fmtC, "     (x-x)   ~ adios ~");
                                 System.out.println(bordeCb);
 
+                                if (!victoria && juego.jefeVencible(personajes)) {
+                                    System.out.println(bordeL);
+                                    System.out.printf(fmtL, "        O D I U M   D E S C I E N D E");
+                                    System.out.printf(fmtL, "   no quedan enemigos: ya puedes atacarlo");
+                                    System.out.println(bordeLb);
+                                }
+
                             } else {
 
                                 derrota = true;

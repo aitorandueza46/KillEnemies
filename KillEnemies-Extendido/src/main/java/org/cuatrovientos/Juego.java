@@ -35,4 +35,15 @@ public class Juego {
 
     }
 
+    public boolean jefeVencible(ArrayList<Character> personajes) {
+
+        for (Character personaje : personajes) {
+            if (personaje.isEnemy() && ((Enemy) personaje).esJefe()) {
+                return ((Enemy) personaje).esVencible(personajes);
+            }
+        }
+
+        return false;
+    }
+
 }

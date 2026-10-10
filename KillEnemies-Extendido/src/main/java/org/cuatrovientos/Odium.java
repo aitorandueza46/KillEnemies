@@ -20,6 +20,12 @@ public class Odium extends Enemy {
     }
 
     @Override
+    public int atacar() {
+        System.out.println("  Odium desata su Odio: " + dano + " de daño");
+        return dano;
+    }
+
+    @Override
     public void kill() {
         System.out.println("┌" + "─".repeat(40) + "┐");
         System.out.printf("│ %-38s │%n", "¡Odium ha sido destruido!");
