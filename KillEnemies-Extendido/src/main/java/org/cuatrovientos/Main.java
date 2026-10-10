@@ -135,9 +135,12 @@ public class Main {
         System.out.printf(fmtC, "    (^-^)      y      (x-x)");
         System.out.println(bordeCb);
 
+        Juego juego = new Juego();
+        boolean derrota = false;
+        boolean victoria = false;
         int opcion = 0;
 
-        while (!personajes.isEmpty() && opcion != 3) {
+        while (!personajes.isEmpty() && opcion != 3 && !derrota && !victoria) {
 
             showCharacters(personajes);
 
@@ -213,20 +216,37 @@ public class Main {
                             System.out.printf(fmtC, "  quedan enemigos en pie");
                             System.out.println(bordeCb);
 
-                        } else {
+                        } else if (objetivo.isEnemy()) {
 
-                            if (objetivo.isEnemy()) {
-                                heroe.attack((Enemy) objetivo);
+                            boolean gana = juego.combatir(heroe, (Enemy) objetivo);
+
+                            if (gana) {
+
+                                if (((Enemy) objetivo).esJefe()) {
+                                    victoria = true;
+                                }
+
+                                personajes.remove(indice);
+
+                                System.out.println(bordeC);
+                                System.out.printf(fmtC, "  el personaje sale de la lista");
+                                System.out.printf(fmtC, "     (x-x)   ~ adios ~");
+                                System.out.println(bordeCb);
+
                             } else {
-                                heroe.attack((Friend) objetivo);
+
+                                derrota = true;
+
                             }
 
+                        } else {
+
+                            heroe.attack((Friend) objetivo);
                             personajes.remove(indice);
 
                             System.out.println(bordeC);
                             System.out.printf(fmtC, "  el personaje sale de la lista");
-                            System.out.printf(fmtC,
-                                    "     " + (objetivo.isEnemy() ? "(x-x)" : "(^-^)") + "   ~ adios ~");
+                            System.out.printf(fmtC, "     (^-^)   ~ adios ~");
                             System.out.println(bordeCb);
 
                         }
@@ -294,13 +314,22 @@ public class Main {
 
         teclado.close();
 
-        if (personajes.isEmpty()) {
+        if (personajes.isEmpty() || derrota || victoria) {
             fichero.delete();
+        }
+
+        String titulo;
+        if (derrota) {
+            titulo = "         D E R R O T A   D E L   H E R O E";
+        } else if (victoria) {
+            titulo = "         V I C T O R I A   D E L   H E R O E";
+        } else {
+            titulo = "         F I N   D E   L A   P A R T I D A";
         }
 
         String[] fin = {
                 "",
-                "         F I N   D E   L A   P A R T I D A",
+                titulo,
                 "",
                 "                   _______________",
                 "                  /               \\",

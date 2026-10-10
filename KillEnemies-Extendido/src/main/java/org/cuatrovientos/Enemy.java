@@ -59,6 +59,11 @@ public class Enemy implements Character, Serializable {
         return true;
     }
 
+    public int atacar() {
+        System.out.println("  " + nombre + " contraataca con " + dano + " de daño");
+        return dano;
+    }
+
     public void kill() {
         System.out.println("┌" + "─".repeat(40) + "┐");
         System.out.printf("│ %-38s │%n", "Ahhhggg, me mataste, bastardo!");

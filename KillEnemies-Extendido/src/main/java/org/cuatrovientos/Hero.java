@@ -77,18 +77,56 @@ public class Hero implements Character, Serializable {
     }
 
     public void attack(Enemy enemy) {
-        System.out.println("┌" + "─".repeat(40) + "┐");
-        System.out.printf("│ %-38s │%n", "¡He atacado a un enemigo!");
-        System.out.printf("│ %-38s │%n", "");
-        System.out.printf("│ %-38s │%n", "          ^");
-        System.out.printf("│ %-38s │%n", "         /|\\");
-        System.out.printf("│ %-38s │%n", "          |");
-        System.out.printf("│ %-38s │%n", "       ===|===");
-        System.out.printf("│ %-38s │%n", "          |");
-        System.out.printf("│ %-38s │%n", "          o");
-        System.out.println("└" + "─".repeat(40) + "┘");
-        enemy.kill();
-        enemigosMatados++;
+        System.out.println("  ¡He atacado a un enemigo!");
+        int danoReal = getDanoDeAtaque(enemy);
+        enemy.recibirDano(danoReal);
+        System.out.println("  " + enemy.getName() + " recibe " + danoReal
+                + " de daño (Vida " + enemy.getVida() + "/" + enemy.getVidaMax() + ")");
+        if (enemy.getVida() <= 0) {
+            enemy.kill();
+            enemigosMatados++;
+        }
+    }
+
+    public int getDanoDeAtaque(Enemy enemy) {
+        int total = dano + danoExtra;
+        switch (orden) {
+            case CORREDORES_DEL_VIENTO:
+                total += 2;
+                break;
+            case ESQUIRLAS_DEL_CIELO:
+                if (enemy.esJefe()) {
+                    total += 2;
+                }
+                break;
+            case BAILARINES_DEL_FILO:
+                total += 1;
+                break;
+            case FORJADORES_DE_ALMAS:
+                total += 3;
+                break;
+            case MOLDEADORES_DE_VOLUNTAD:
+                if (vida * 2 > vidaMax) {
+                    total += 2;
+                }
+                break;
+            default:
+                break;
+        }
+        return total;
+    }
+
+    public int reducirDano(int cantidad) {
+        switch (orden) {
+            case PORTADORES_DEL_POLVO:
+            case BAILARINES_DEL_FILO:
+            case GUARDIANES_DE_LA_PIEDRA:
+                return Math.max(0, cantidad - 1);
+            case TEJEDORES_DE_LUZ:
+                return Math.max(0, cantidad - 2);
+            default:
+                return cantidad;
+        }
     }
 
     public void attack(Friend friend) {
