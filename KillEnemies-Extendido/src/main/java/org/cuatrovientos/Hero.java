@@ -4,8 +4,20 @@ import java.io.Serializable;
 
 public class Hero implements Character, Serializable {
 
+    private final Orden orden;
+    private int vida;
+    private int vidaMax;
+    private int dano;
     private int enemigosMatados;
     private int amigosDefendidos;
+    private int danoExtra;
+
+    public Hero(Orden orden) {
+        this.orden = orden;
+        this.vidaMax = orden.getVida();
+        this.vida = orden.getVida();
+        this.dano = orden.getDano();
+    }
 
     @Override
     public boolean isEnemy() {
@@ -14,7 +26,54 @@ public class Hero implements Character, Serializable {
 
     @Override
     public String getName() {
-        return "heroe";
+        return orden.getNombre();
+    }
+
+    @Override
+    public int getVida() {
+        return vida;
+    }
+
+    @Override
+    public int getVidaMax() {
+        return vidaMax;
+    }
+
+    @Override
+    public void recibirDano(int dano) {
+        this.vida -= dano;
+        if (this.vida < 0) {
+            this.vida = 0;
+        }
+    }
+
+    public int curar(int cantidad) {
+        int antes = vida;
+        vida += cantidad;
+        if (vida > vidaMax) {
+            vida = vidaMax;
+        }
+        return vida - antes;
+    }
+
+    public Orden getOrden() {
+        return orden;
+    }
+
+    public int getDano() {
+        return dano;
+    }
+
+    public int getDanoExtra() {
+        return danoExtra;
+    }
+
+    public void addDanoExtra(int cantidad) {
+        danoExtra += cantidad;
+    }
+
+    public void resetDanoExtra() {
+        danoExtra = 0;
     }
 
     public void attack(Enemy enemy) {

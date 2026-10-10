@@ -4,10 +4,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.cuatrovientos</groupId>
-  <artifactId>Juego-Extendido</artifactId>
+  <artifactId>killenemies-extendido</artifactId>
   <version>1.0</version>
 
-  <name>Juego-Extendido</name>
+  <name>KillEnemies-Extendido</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 

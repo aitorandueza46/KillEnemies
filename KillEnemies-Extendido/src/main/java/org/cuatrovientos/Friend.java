@@ -14,6 +14,20 @@ public class Friend implements Character, Serializable {
         return "amigo";
     }
 
+    @Override
+    public int getVida() {
+        return 0;
+    }
+
+    @Override
+    public int getVidaMax() {
+        return 0;
+    }
+
+    @Override
+    public void recibirDano(int dano) {
+    }
+
     public void heal() {
         System.out.println("┌" + "─".repeat(40) + "┐");
         System.out.printf("│ %-38s │%n", "¡Te he curado!");

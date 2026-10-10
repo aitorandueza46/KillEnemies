@@ -46,6 +46,8 @@ public class Main {
         }
         System.out.println(bordeLb);
 
+        Scanner teclado = new Scanner(System.in);
+
         File fichero = new File("partida.dat");
         ArrayList<Character> personajes = null;
         Hero heroe = null;
@@ -70,17 +72,42 @@ public class Main {
 
             personajes = new ArrayList<>();
 
-            for (int i = 0; i < 5; i++) {
-                personajes.add(new Friend());
-            }
+            personajes.add(new Sanador());
+            personajes.add(new Sanador());
+            personajes.add(new Aliado());
+            personajes.add(new Aliado());
+            personajes.add(new Friend());
 
-            for (int i = 0; i < 5; i++) {
-                personajes.add(new Enemy());
-            }
+            personajes.add(new Fusionado());
+            personajes.add(new Fusionado());
+            personajes.add(new Cantor());
+            personajes.add(new Cantor());
+            personajes.add(new Oyente());
+
+            personajes.add(new Odium());
 
             Collections.shuffle(personajes);
 
-            heroe = new Hero();
+            System.out.println(bordeL);
+            System.out.printf(fmtL, "                E L I G E   H E R O E");
+            System.out.println(bordeLm);
+            Orden[] ordenes = Orden.values();
+            for (int i = 0; i < ordenes.length; i++) {
+                System.out.printf(fmtL, "  [" + (i + 1) + "] " + ordenes[i].getNombre()
+                        + "   Vida " + ordenes[i].getVida() + "   Daño " + ordenes[i].getDano());
+                System.out.printf(fmtL, "      " + ordenes[i].getPasiva());
+            }
+            System.out.println(bordeLb);
+
+            System.out.println(bordeC);
+            System.out.printf(fmtC, "  Opcion (1-" + ordenes.length + "):");
+            System.out.println(bordeCb);
+            System.out.print("> ");
+            int eleccion = teclado.nextInt();
+            if (eleccion < 1 || eleccion > ordenes.length) {
+                eleccion = 1;
+            }
+            heroe = new Hero(ordenes[eleccion - 1]);
 
         }
 
@@ -108,20 +135,11 @@ public class Main {
         System.out.printf(fmtC, "    (^-^)      y      (x-x)");
         System.out.println(bordeCb);
 
-        Scanner teclado = new Scanner(System.in);
         int opcion = 0;
 
         while (!personajes.isEmpty() && opcion != 3) {
 
-            System.out.println(bordeC);
-            System.out.printf(fmtC, " L I S T A   D E   P E R S O N A J E S");
-            System.out.println(bordeCm);
-            for (int i = 0; i < personajes.size(); i++) {
-                String frase = "el personaje " + i + " es un " + personajes.get(i).getName();
-                String icono = personajes.get(i).isEnemy() ? "(x-x)" : "(^-^)";
-                System.out.printf("│ %-31s %6s │%n", frase, icono);
-            }
-            System.out.println(bordeCb);
+            showCharacters(personajes);
 
             String[] menu = {
                     "",
@@ -188,30 +206,54 @@ public class Main {
 
                     if (opcion == 1) {
 
-                        if (objetivo.isEnemy()) {
-                            heroe.attack((Enemy) objetivo);
+                        if (objetivo.isEnemy() && !((Enemy) objetivo).esVencible(personajes)) {
+
+                            System.out.println(bordeC);
+                            System.out.printf(fmtC, "  Odium aun no puede ser atacado");
+                            System.out.printf(fmtC, "  quedan enemigos en pie");
+                            System.out.println(bordeCb);
+
                         } else {
-                            heroe.attack((Friend) objetivo);
+
+                            if (objetivo.isEnemy()) {
+                                heroe.attack((Enemy) objetivo);
+                            } else {
+                                heroe.attack((Friend) objetivo);
+                            }
+
+                            personajes.remove(indice);
+
+                            System.out.println(bordeC);
+                            System.out.printf(fmtC, "  el personaje sale de la lista");
+                            System.out.printf(fmtC,
+                                    "     " + (objetivo.isEnemy() ? "(x-x)" : "(^-^)") + "   ~ adios ~");
+                            System.out.println(bordeCb);
+
                         }
-
-                        personajes.remove(indice);
-
-                        System.out.println(bordeC);
-                        System.out.printf(fmtC, "  el personaje sale de la lista");
-                        System.out.printf(fmtC,
-                                "     " + (objetivo.isEnemy() ? "(x-x)" : "(^-^)") + "   ~ adios ~");
-                        System.out.println(bordeCb);
 
                     } else {
 
                         if (objetivo.isEnemy()) {
-                            heroe.defend((Enemy) objetivo);
-                            personajes.add(indice + 1, objetivo);
 
-                            System.out.println(bordeC);
-                            System.out.printf(fmtC, "  el personaje se ha duplicado");
-                            System.out.printf(fmtC, "    (x-x)  =>  (x-x) (x-x)");
-                            System.out.println(bordeCb);
+                            heroe.defend((Enemy) objetivo);
+
+                            if (((Enemy) objetivo).esJefe()) {
+
+                                System.out.println(bordeC);
+                                System.out.printf(fmtC, "  Odium no puede duplicarse");
+                                System.out.println(bordeCb);
+
+                            } else {
+
+                                personajes.add(indice + 1, objetivo);
+
+                                System.out.println(bordeC);
+                                System.out.printf(fmtC, "  el personaje se ha duplicado");
+                                System.out.printf(fmtC, "    (x-x)  =>  (x-x) (x-x)");
+                                System.out.println(bordeCb);
+
+                            }
+
                         } else {
                             heroe.defend((Friend) objetivo);
                         }
@@ -278,6 +320,31 @@ public class Main {
         System.out.printf(fmtL, "                enemigos matados:  " + heroe.getEnemigosMatados());
         System.out.printf(fmtL, "                amigos defendidos: " + heroe.getAmigosDefendidos());
         System.out.println(bordeLb);
+
+    }
+
+    static void showCharacters(ArrayList<Character> personajes) {
+
+        int corto = 40;
+        String bordeC = "┌" + "─".repeat(corto) + "┐";
+        String bordeCm = "├" + "─".repeat(corto) + "┤";
+        String bordeCb = "└" + "─".repeat(corto) + "┘";
+        String fmtC = "│ %-" + (corto - 2) + "s │%n";
+
+        System.out.println(bordeC);
+        System.out.printf(fmtC, " L I S T A   D E   P E R S O N A J E S");
+        System.out.println(bordeCm);
+        for (int i = 0; i < personajes.size(); i++) {
+            Character personaje = personajes.get(i);
+            String tipo = personaje.isEnemy() ? "enemigo" : "amigo";
+            String icono = personaje.isEnemy() ? "(x-x)" : "(^-^)";
+            String nombre = i + ": " + tipo + " " + personaje.getName() + " " + icono;
+            String vida = personaje.getVidaMax() > 0
+                    ? "Vida " + personaje.getVida() + "/" + personaje.getVidaMax()
+                    : "";
+            System.out.printf("│ %-27s %10s │%n", nombre, vida);
+        }
+        System.out.println(bordeCb);
 
     }
 

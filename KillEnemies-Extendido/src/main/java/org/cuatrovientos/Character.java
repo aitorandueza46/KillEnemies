@@ -6,4 +6,10 @@ public interface Character {
 
     String getName();
 
+    int getVida();
+
+    int getVidaMax();
+
+    void recibirDano(int dano);
+
 }
