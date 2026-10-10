@@ -1,5 +1,7 @@
 package org.cuatrovientos;
 
+import java.util.ArrayList;
+
 public class Juego {
 
     public boolean combatir(Hero heroe, Enemy enemigo) {
@@ -20,6 +22,17 @@ public class Juego {
         heroe.resetDanoExtra();
 
         return heroe.getVida() > 0;
+    }
+
+    public void proteger(Hero heroe, Friend amigo, ArrayList<Character> personajes) {
+
+        heroe.defend(amigo);
+        amigo.efecto(heroe);
+
+        if (amigo.seConsume()) {
+            personajes.remove(amigo);
+        }
+
     }
 
 }

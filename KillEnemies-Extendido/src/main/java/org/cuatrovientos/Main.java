@@ -54,7 +54,7 @@ public class Main {
         boolean cargada = false;
 
         if (fichero.exists()) {
-
+            
             try (ObjectInputStream entrada = new ObjectInputStream(new FileInputStream(fichero))) {
                 personajes = (ArrayList<Character>) entrada.readObject();
                 heroe = (Hero) entrada.readObject();
@@ -74,9 +74,9 @@ public class Main {
 
             personajes.add(new Sanador());
             personajes.add(new Sanador());
+            personajes.add(new Sanador());
             personajes.add(new Aliado());
             personajes.add(new Aliado());
-            personajes.add(new Friend());
 
             personajes.add(new Fusionado());
             personajes.add(new Fusionado());
@@ -275,7 +275,19 @@ public class Main {
                             }
 
                         } else {
-                            heroe.defend((Friend) objetivo);
+
+                            Friend amigo = (Friend) objetivo;
+                            boolean consumido = amigo.seConsume();
+
+                            juego.proteger(heroe, amigo, personajes);
+
+                            if (consumido) {
+                                System.out.println(bordeC);
+                                System.out.printf(fmtC, "  el aliado se ha consumido");
+                                System.out.printf(fmtC, "     (>_<)   ~ adios ~");
+                                System.out.println(bordeCb);
+                            }
+
                         }
 
                     }

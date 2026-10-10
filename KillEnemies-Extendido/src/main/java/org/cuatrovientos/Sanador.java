@@ -13,13 +13,14 @@ public class Sanador extends Friend {
         return curacion;
     }
 
-    public int curar(Hero heroe) {
-        int curado = heroe.curar(curacion);
+    @Override
+    public void efecto(Hero heroe) {
+        int total = curacion + heroe.getOrden().bonusCuracion();
+        int curado = heroe.curar(total);
         System.out.println("┌" + "─".repeat(40) + "┐");
         System.out.printf("│ %-38s │%n", "¡Te he curado " + curado + " de vida!");
         System.out.printf("│ %-38s │%n", "Vida " + heroe.getVida() + "/" + heroe.getVidaMax());
         System.out.println("└" + "─".repeat(40) + "┘");
-        return curado;
     }
 
 }

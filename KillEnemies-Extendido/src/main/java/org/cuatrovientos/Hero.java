@@ -152,7 +152,6 @@ public class Hero implements Character, Serializable {
         System.out.printf("│ %-38s │%n", "     \\   /");
         System.out.printf("│ %-38s │%n", "      \\_/");
         System.out.println("└" + "─".repeat(40) + "┘");
-        friend.heal();
         amigosDefendidos++;
     }
 

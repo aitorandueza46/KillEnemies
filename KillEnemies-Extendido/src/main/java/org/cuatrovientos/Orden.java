@@ -51,4 +51,26 @@ public enum Orden {
         return pasiva;
     }
 
+    public int bonusCuracion() {
+        switch (this) {
+            case CORREDORES_DEL_VIENTO:
+                return 1;
+            case OBSERVADORES_DE_LA_VERDAD:
+                return 2;
+            default:
+                return 0;
+        }
+    }
+
+    public int bonusAliado() {
+        switch (this) {
+            case CORREDORES_DEL_VIENTO:
+                return 1;
+            case FORJADORES_DEL_VINCULO:
+                return 2;
+            default:
+                return 0;
+        }
+    }
+
 }
