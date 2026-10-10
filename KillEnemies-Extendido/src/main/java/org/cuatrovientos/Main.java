@@ -142,11 +142,12 @@ public class Main {
 
         while (!personajes.isEmpty() && opcion != 3 && !derrota && !victoria) {
 
-            showCharacters(personajes);
+            showCharacters(personajes, heroe);
 
             String[] menu = {
                     "",
                     "  A C C I O N E S   D E L   H E R O E",
+                    "  " + heroe.getName() + "  ·  Vida " + heroe.getVida() + "/" + heroe.getVidaMax(),
                     "",
                     "  [1] Atacar",
                     "        ^",
@@ -282,7 +283,7 @@ public class Main {
 
                             if (consumido) {
                                 System.out.println(bordeC);
-                                System.out.printf(fmtC, "  el aliado se ha consumido");
+                                System.out.printf(fmtC, "  el amigo se ha consumido");
                                 System.out.printf(fmtC, "     (>_<)   ~ adios ~");
                                 System.out.println(bordeCb);
                             }
@@ -346,7 +347,7 @@ public class Main {
 
     }
 
-    static void showCharacters(ArrayList<Character> personajes) {
+    static void showCharacters(ArrayList<Character> personajes, Hero heroe) {
 
         int corto = 40;
         String bordeC = "┌" + "─".repeat(corto) + "┐";
@@ -366,8 +367,29 @@ public class Main {
                     ? "Vida " + personaje.getVida() + "/" + personaje.getVidaMax()
                     : "";
             System.out.printf("│ %-27s %10s │%n", nombre, vida);
+            System.out.printf("│ %-38s │%n", "     " + detalle(personaje, heroe));
         }
         System.out.println(bordeCb);
+
+    }
+
+    static String detalle(Character personaje, Hero heroe) {
+
+        if (personaje.isEnemy()) {
+            return "hace " + ((Enemy) personaje).getDano() + " de daño";
+        }
+
+        Orden orden = heroe.getOrden();
+
+        if (personaje instanceof Aliado) {
+            return "da +" + (((Aliado) personaje).getDanoExtra() + orden.bonusAliado()) + " de daño";
+        }
+
+        if (personaje instanceof Sanador) {
+            return "regenera " + (((Sanador) personaje).getCuracion() + orden.bonusCuracion()) + " de vida";
+        }
+
+        return "";
 
     }
 

@@ -23,4 +23,9 @@ public class Sanador extends Friend {
         System.out.println("└" + "─".repeat(40) + "┘");
     }
 
+    @Override
+    public boolean seConsume() {
+        return true;
+    }
+
 }

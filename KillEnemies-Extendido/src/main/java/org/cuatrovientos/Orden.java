@@ -18,9 +18,9 @@ public enum Orden {
             "+3 daño"),
     MOLDEADORES_DE_VOLUNTAD("Moldeadores de Voluntad", 33, 6,
             "+2 daño si la vida supera el 50%"),
-    GUARDIANES_DE_LA_PIEDRA("Guardianes de la Piedra", 36, 5,
+    GUARDIANES_DE_LA_PIEDRA("Guardianes de la Piedra", 36, 6,
             "reduce 1 el daño recibido"),
-    FORJADORES_DEL_VINCULO("Forjadores del Vínculo", 34, 5,
+    FORJADORES_DEL_VINCULO("Forjadores del Vínculo", 34, 6,
             "los aliados dan +2 extra");
 
     private final String nombre;
