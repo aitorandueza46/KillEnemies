@@ -19,6 +19,8 @@ public class Main {
         Hero heroe = null;
         Scanner teclado = new Scanner(System.in);
 
+        tutorial(teclado);
+
         if (fichero.exists()) {
 
             try (ObjectInputStream entrada = new ObjectInputStream(new FileInputStream(fichero))) {
@@ -149,6 +151,36 @@ public class Main {
                 System.out.println("el personaje " + i + " es un amigo");
             }
         }
+    }
+
+    static void tutorial(Scanner teclado) {
+
+        System.out.println("============================================================");
+        System.out.println("                 K I L L   E N E M I E S");
+        System.out.println("               como jugar (guia rapida)");
+        System.out.println("============================================================");
+        System.out.println();
+        System.out.println("Eres un heroe y tienes delante una lista de personajes:");
+        System.out.println("unos son AMIGOS (se defienden) y otros ENEMIGOS (se atacan).");
+        System.out.println();
+        System.out.println("En cada turno eliges una opcion:");
+        System.out.println();
+        System.out.println("  1. Atacar    elige el indice y golpea a alguien.");
+        System.out.println("               Si es enemigo, cae de la lista.");
+        System.out.println("  2. Defender  protege a un amigo: te cura.");
+        System.out.println("               Si defiendes a un enemigo, se duplica.");
+        System.out.println("  3. Salir     termina la partida.");
+        System.out.println();
+        System.out.println("Cuando el juego pida \"indice\", escribe el numero que");
+        System.out.println("aparece a la izquierda de cada personaje en la lista.");
+        System.out.println();
+        System.out.println("Objetivo: ataca a todos los enemigos y defiende a los");
+        System.out.println("amigos cuando te falte vida. La partida se guarda sola:");
+        System.out.println("si cierras y vuelves a abrir, continuas donde lo dejaste.");
+        System.out.println();
+        System.out.print("  Pulsa ENTER para empezar...");
+        teclado.nextLine();
+
     }
 
 }

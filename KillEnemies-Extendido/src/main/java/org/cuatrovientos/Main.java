@@ -43,6 +43,8 @@ public class Main {
 
         Scanner teclado = new Scanner(System.in);
 
+        tutorial(bordeL, fmtL, bordeLb, teclado);
+
         File fichero = new File("partida.dat");
         ArrayList<Character> personajes = null;
         Hero heroe = null;
@@ -344,6 +346,49 @@ public class Main {
         System.out.printf(fmtL, "                enemigos matados:  " + heroe.getEnemigosMatados());
         System.out.printf(fmtL, "                amigos defendidos: " + heroe.getAmigosDefendidos());
         System.out.println(bordeLb);
+
+    }
+
+    static void tutorial(String bordeL, String fmtL, String bordeLb, Scanner teclado) {
+
+        String[] guia = {
+                "",
+                "                C O M O   J U G A R",
+                "",
+                "  Eres un heroe. Hay AMIGOS (^-^) que te ayudan",
+                "  y ENEMIGOS (x-x) a los que debes derrotar.",
+                "",
+                "  En cada turno eliges una accion:",
+                "",
+                "   [1] Atacar",
+                "        elige el indice y golpea.",
+                "        Enemigo -> cae de la lista.",
+                "        Amigo   -> mejor no hacerlo.",
+                "",
+                "   [2] Defender",
+                "        Sanador -> te cura de vida.",
+                "        Aliado  -> +dano en el proximo combate.",
+                "        Enemigo -> se duplica (cuidado).",
+                "",
+                "   [3] Salir",
+                "        termina la partida.",
+                "",
+                "  El indice es el numero a la izquierda (0, 1, 2).",
+                "  La partida se guarda sola: puedes cerrar y seguir.",
+                "",
+                "  El jefe Odium solo se puede atacar al final.",
+                "",
+                "                       (^-^)  ¡Suerte!",
+                ""
+        };
+
+        System.out.println(bordeL);
+        for (String linea : guia) {
+            System.out.printf(fmtL, linea);
+        }
+        System.out.println(bordeLb);
+        System.out.print("  pulsa ENTER para empezar...");
+        teclado.nextLine();
 
     }
 
