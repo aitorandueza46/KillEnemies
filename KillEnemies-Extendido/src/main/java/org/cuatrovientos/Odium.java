@@ -21,6 +21,7 @@ public class Odium extends Enemy {
 
     @Override
     public int atacar() {
+        Arte.imprimir(Arte.odium());
         System.out.println("  Odium desata su Odio: " + dano + " de daño");
         return dano;
     }

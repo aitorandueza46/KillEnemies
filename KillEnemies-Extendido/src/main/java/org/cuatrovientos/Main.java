@@ -96,6 +96,9 @@ public class Main {
                 System.out.printf(fmtL, "  [" + (i + 1) + "] " + ordenes[i].getNombre()
                         + "   Vida " + ordenes[i].getVida() + "   Daño " + ordenes[i].getDano());
                 System.out.printf(fmtL, "      " + ordenes[i].getPasiva());
+                for (String linea : Arte.heroe(ordenes[i])) {
+                    System.out.printf(fmtL, "    " + linea);
+                }
             }
             System.out.println(bordeLb);
 

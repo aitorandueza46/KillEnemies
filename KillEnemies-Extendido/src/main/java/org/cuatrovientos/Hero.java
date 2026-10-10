@@ -77,6 +77,7 @@ public class Hero implements Character, Serializable {
     }
 
     public void attack(Enemy enemy) {
+        Arte.imprimir(Arte.heroe(orden));
         System.out.println("  ¡He atacado a un enemigo!");
         int danoReal = getDanoDeAtaque(enemy);
         enemy.recibirDano(danoReal);
