@@ -1,11 +1,6 @@
 package org.cuatrovientos;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -54,12 +49,14 @@ public class Main {
         boolean cargada = false;
 
         if (fichero.exists()) {
-            
-            try (ObjectInputStream entrada = new ObjectInputStream(new FileInputStream(fichero))) {
-                personajes = (ArrayList<Character>) entrada.readObject();
-                heroe = (Hero) entrada.readObject();
+
+            Partida partidaGuardada = Partida.cargar(fichero);
+
+            if (partidaGuardada != null) {
+                personajes = partidaGuardada.getPersonajes();
+                heroe = partidaGuardada.getHeroe();
                 cargada = true;
-            } catch (Exception e) {
+            } else {
                 System.out.println("no se pudo cargar la partida, se empieza una nueva");
             }
 
@@ -302,25 +299,19 @@ public class Main {
 
                     }
 
-                    try (ObjectOutputStream salida = new ObjectOutputStream(new FileOutputStream(fichero))) {
-                        salida.writeObject(personajes);
-                        salida.writeObject(heroe);
+                    boolean guardada = new Partida(personajes, heroe).guardar(fichero);
 
-                        System.out.println(bordeC);
+                    System.out.println(bordeC);
+                    if (guardada) {
                         System.out.printf(fmtC, "  partida guardada en partida.dat");
                         System.out.printf(fmtC, "     +-----+");
                         System.out.printf(fmtC, "     | ### |");
                         System.out.printf(fmtC, "     | # # |");
                         System.out.printf(fmtC, "     +-----+");
-                        System.out.println(bordeCb);
-
-                    } catch (IOException e) {
-
-                        System.out.println(bordeC);
+                    } else {
                         System.out.printf(fmtC, "  no se pudo guardar la partida");
-                        System.out.println(bordeCb);
-
                     }
+                    System.out.println(bordeCb);
 
                 }
 
