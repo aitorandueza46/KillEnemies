@@ -4,8 +4,13 @@ import java.io.Serializable;
 
 public class Hero implements Character, Serializable {
 
+    private final String name;
     private int enemigosMatados;
     private int amigosDefendidos;
+
+    public Hero(String name) {
+        this.name = name;
+    }
 
     @Override
     public boolean isEnemy() {
@@ -14,7 +19,7 @@ public class Hero implements Character, Serializable {
 
     @Override
     public String getName() {
-        return "heroe";
+        return name;
     }
 
     public void attack(Enemy enemy) {

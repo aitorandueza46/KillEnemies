@@ -17,6 +17,7 @@ public class Main {
         File fichero = new File("partida.dat");
         ArrayList<Character> personajes = null;
         Hero heroe = null;
+        Scanner teclado = new Scanner(System.in);
 
         if (fichero.exists()) {
 
@@ -46,7 +47,9 @@ public class Main {
 
             Collections.shuffle(personajes);
 
-            heroe = new Hero();
+            System.out.println("introduce el nombre de tu heroe");
+            String nombre = teclado.nextLine();
+            heroe = new Hero(nombre);
 
         }
 
@@ -63,14 +66,11 @@ public class Main {
 
         System.out.println("hay " + amigos + " amigos y " + enemigos + " enemigos");
 
-        Scanner teclado = new Scanner(System.in);
         int opcion = 0;
 
         while (!personajes.isEmpty() && opcion != 3) {
 
-            for (int i = 0; i < personajes.size(); i++) {
-                System.out.println("el personaje " + i + " es un " + personajes.get(i).getName());
-            }
+            showCharacters(personajes);
 
             System.out.println("1. Atacar");
             System.out.println("2. Defender");
@@ -133,13 +133,22 @@ public class Main {
 
         System.out.println("--- fin de la partida ---");
 
-        for (int i = 0; i < personajes.size(); i++) {
-            System.out.println("el personaje " + i + " es un " + personajes.get(i).getName());
-        }
+        showCharacters(personajes);
 
         System.out.println("enemigos matados: " + heroe.getEnemigosMatados());
         System.out.println("amigos defendidos: " + heroe.getAmigosDefendidos());
 
+    }
+
+    static void showCharacters(ArrayList<Character> personajes) {
+        for (int i = 0; i < personajes.size(); i++) {
+            Character personaje = personajes.get(i);
+            if (personaje.isEnemy()) {
+                System.out.println("el personaje " + i + " es un enemigo");
+            } else {
+                System.out.println("el personaje " + i + " es un amigo");
+            }
+        }
     }
 
 }
