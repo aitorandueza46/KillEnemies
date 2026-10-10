@@ -227,11 +227,7 @@ public class Main {
                                 }
 
                                 personajes.remove(indice);
-
-                                System.out.println(bordeC);
-                                System.out.printf(fmtC, "  el personaje sale de la lista");
-                                System.out.printf(fmtC, "     (x-x)   ~ adios ~");
-                                System.out.println(bordeCb);
+                                salirDeLista(bordeC, fmtC, bordeCb, "(x-x)");
 
                                 if (!victoria && juego.jefeVencible(personajes)) {
                                     System.out.println(bordeL);
@@ -250,11 +246,7 @@ public class Main {
 
                             heroe.attack((Friend) objetivo);
                             personajes.remove(indice);
-
-                            System.out.println(bordeC);
-                            System.out.printf(fmtC, "  el personaje sale de la lista");
-                            System.out.printf(fmtC, "     (^-^)   ~ adios ~");
-                            System.out.println(bordeCb);
+                            salirDeLista(bordeC, fmtC, bordeCb, "(^-^)");
 
                         }
 
@@ -300,18 +292,7 @@ public class Main {
                     }
 
                     boolean guardada = new Partida(personajes, heroe).guardar(fichero);
-
-                    System.out.println(bordeC);
-                    if (guardada) {
-                        System.out.printf(fmtC, "  partida guardada en partida.dat");
-                        System.out.printf(fmtC, "     +-----+");
-                        System.out.printf(fmtC, "     | ### |");
-                        System.out.printf(fmtC, "     | # # |");
-                        System.out.printf(fmtC, "     +-----+");
-                    } else {
-                        System.out.printf(fmtC, "  no se pudo guardar la partida");
-                    }
-                    System.out.println(bordeCb);
+                    cajaGuardado(bordeC, fmtC, bordeCb, guardada);
 
                 }
 
@@ -385,6 +366,31 @@ public class Main {
                     ? "Vida " + personaje.getVida() + "/" + personaje.getVidaMax()
                     : "";
             System.out.printf("│ %-27s %10s │%n", nombre, vida);
+        }
+        System.out.println(bordeCb);
+
+    }
+
+    static void salirDeLista(String bordeC, String fmtC, String bordeCb, String cara) {
+
+        System.out.println(bordeC);
+        System.out.printf(fmtC, "  el personaje sale de la lista");
+        System.out.printf(fmtC, "     " + cara + "   ~ adios ~");
+        System.out.println(bordeCb);
+
+    }
+
+    static void cajaGuardado(String bordeC, String fmtC, String bordeCb, boolean guardada) {
+
+        System.out.println(bordeC);
+        if (guardada) {
+            System.out.printf(fmtC, "  partida guardada en partida.dat");
+            System.out.printf(fmtC, "     +-----+");
+            System.out.printf(fmtC, "     | ### |");
+            System.out.printf(fmtC, "     | # # |");
+            System.out.printf(fmtC, "     +-----+");
+        } else {
+            System.out.printf(fmtC, "  no se pudo guardar la partida");
         }
         System.out.println(bordeCb);
 
